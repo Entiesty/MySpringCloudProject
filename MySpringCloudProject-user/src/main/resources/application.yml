@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: myspringcloudproject-user
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8888
+        port: 8719
+    nacos:
+      discovery:
+        server-addr: 10.22.112.228:6001,10.22.112.228:6005,10.22.112.228:6009
+        username: nacos
+        password: nacos
+
+server:
+  servlet:
+    context-path: /user
+
+feign:
+  sentinel:
+    enabled: true

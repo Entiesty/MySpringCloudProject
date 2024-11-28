@@ -1,0 +1,60 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: route-user
+          uri: http://localhost:4001/user
+          predicates:
+            - name: Path
+              args:
+                pattern: /user/**
+          filters:
+            - name: AddRequestHeader
+              args:
+                name: route-app
+                value: user
+            - name: AddResponseHeader
+              args:
+                name: route-app
+                value: user
+            - name: VeriCode
+              args:
+                prefix: veri_code
+                consoleOut: true
+        - id: route-product
+          uri: lb://myspringcloudproject-product
+          predicates:
+            - name: Path
+              args:
+                pattern: /product/**
+          filters:
+            - name: AddRequestHeader
+              args:
+                name: route-app
+                value: product
+            - name: AddResponseHeader
+              args:
+                name: route-app
+                value: product
+    nacos:
+      discovery:
+        username: nacos
+        password: nacos
+        server-addr: 10.22.112.228:6001,10.22.112.228:6005,10.22.112.228:6009
+    sentinel:
+      transport:
+        dashboard: localhost:8888
+        port: 8729
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      lettuce:
+        pool:
+          min-idle: 5
+          max-active: 15
+          max-idle: 10
+          max-wait: 1s
+
+  application:
+    name: myspringcloudproject-gateway
